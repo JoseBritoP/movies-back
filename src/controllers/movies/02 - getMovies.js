@@ -4,6 +4,7 @@ const moviesJson = require('../../data/movies.json');
 
 const getMovies = async () => {
 
+  // Petición en la api
   const movies = moviesJson.map((movie)=>{
     return {
       title: movie.title,
@@ -20,6 +21,7 @@ const getMovies = async () => {
     }
   });
 
+  // Almacenamiento de base de datos y relación de genres con movies
   for (const movie of movies) {
     const { genre, title } = movie;
 
@@ -42,6 +44,7 @@ const getMovies = async () => {
     await newMovie.addGenres(genresInBDD);
   }
 
+  // Obtención de las peliculas con genres asociados
   const moviesBDD = await Movie.findAll(
     {
       include:{
