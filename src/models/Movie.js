@@ -27,13 +27,11 @@ module.exports = (sequelize) => {
     },
     duration:{
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 120
+      allowNull: false,
     },
     director:{
       type:DataTypes.STRING,
-      allowNull: true,
-      defaultValue: "Unknown"
+      allowNull: false,
     },
     plot:{
       type: DataTypes.TEXT,
