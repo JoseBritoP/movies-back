@@ -65,9 +65,15 @@ const updateMovie = (req,res) => {
   return res.status(200).json({message:`Se actualizará la película de la película: ${id}`});
 };
 
-const deleteMovie = (req,res) => {
+const deleteMovie = async (req,res) => {
   const { id } = req.params;
-  return res.status(200).json({message:`Se borrará la película de id: ${id}`});
+  try {
+    const deletedMovie = await deleteMovieById(id);
+    return res.status(200).json(deletedMovie)
+  } catch (error) {
+    return res.status(400).json({error: error.message})
+  }
+  // return res.status(200).json({message:`Se borrará la película de id: ${id}`});
 };
 
 module.exports = {

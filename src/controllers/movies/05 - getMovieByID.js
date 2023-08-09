@@ -6,7 +6,7 @@ const getMovieByID = async (id) => {
   const movie = await Movie.findOne({
     where: {
       id: id,
-      view: false,
+      view: true,
     },
     include: {
       model: Genre,
