@@ -40,13 +40,13 @@ const getMoviesByGenre = async (req,res) => {
 };
 
 const createMovie = async (req,res) => {
-  // const {Title,Year,Released,Runtime,Genre,Director,Plot,Language,Country,MetaScore,Images} = req.body;
-  // try {
-  //   const newMovie = await postMovie(Title,Year,Released,Runtime,Genre,Director,Plot,Language,Country,MetaScore,Images)
-  //   return res.status(201).json(newMovie);
-  // } catch (error) {
-  //   return res.status(404).json({error: error.message});
-  // }
+  const {title,year,rated,released,duration,genre,director,plot,language,poster,metaScore} = req.body;
+  try {
+    const newMovie = await postMovie(title,year,rated,released,duration,genre,director,plot,language,poster,metaScore)
+    return res.status(201).json(newMovie);
+  } catch (error) {
+    return res.status(404).json({error: error.message});
+  }
   return res.status(201).json({message:`Aqui se creará una pelicula`});
 };
 

@@ -1,41 +1,79 @@
-const movies = require('../data/movies.json');
+const moviesJson = require('../data/movies.json');
 const { Movie, Genre } = require('../db');
-const cleanArray = require('../helpers/cleanArrayMovies')
+const cleanArray = require('../helpers/cleanArrayMovies');
+
 const getMovies = async () => {
 
-  const movies = Movie.findAll({
-    include:{
-      model:Genre
+  const movies = moviesJson.map((movie)=>{
+    return {
+      title: movie.title,
+      year: movie.year,
+      rated: movie.rated,
+      released: movie.released,
+      duration: movie.duration,
+      genre: movie.genre,
+      director: movie.director,
+      plot: movie.plot,
+      language: movie.language,
+      poster: movie.poster,
+      metascore: movie.metascore,
     }
   });
-  
-  // const cleanMoviesInfo = cleanArray(movies);
-  return movies;
-  // return cleanMoviesInfo
+
+  for (const movie of movies) {
+    const { genre, title } = movie;
+
+    const [newMovie] = await Movie.findOrCreate({
+      where: { title: title }, // Buscar por título
+      defaults: {
+        year: movie.year,
+        rated: movie.rated,
+        released: movie.released,
+        duration: movie.duration,
+        director: movie.director,
+        plot: movie.plot,
+        language: movie.language,
+        poster: movie.poster,
+        metascore: movie.metascore,
+      },
+    });
+
+    const genresInBDD = await Genre.findAll({ where: { name: genre } });
+    await newMovie.addGenres(genresInBDD);
+  }
+
+
+  const moviesBDD = await Movie.findAll({include:{
+    model:Genre,
+    attributes:["id","name"],
+    through: { attributes: [] }
+  }});
+
+  return moviesBDD
 };
 
 const getMoviesByName = (Title) => {
-  // console.log(Title)
-  const filteredMovies = movies.filter((movie)=> movie.Title.toLowerCase().includes(Title.toLowerCase()));
-  // console.log(filteredMovies)
-  if(filteredMovies.length === 0) throw Error(`No se encontraron películas llamadas ${Title}`);
-  const cleanMoviesInfo = cleanArray(filteredMovies)
-  // return filteredMovies;
-  return cleanMoviesInfo
+  // // console.log(Title)
+  // const filteredMovies = movies.filter((movie)=> movie.Title.toLowerCase().includes(Title.toLowerCase()));
+  // // console.log(filteredMovies)
+  // if(filteredMovies.length === 0) throw Error(`No se encontraron películas llamadas ${Title}`);
+  // const cleanMoviesInfo = cleanArray(filteredMovies)
+  // // return filteredMovies;
+  // return cleanMoviesInfo
 };
 
 const getMoviesByGenres = (genre) => {
-  // console.log(genre)
-  const filteredMoviesByGenre = movies.filter((movie) => movie.Genre.toLowerCase().includes(genre.toLowerCase()));
-  if(filteredMoviesByGenre.length === 0) throw Error(`No existen películas con el género: ${genre}`);
-  const cleanMoviesInfo = cleanArray(filteredMoviesByGenre);
+  // // console.log(genre)
+  // const filteredMoviesByGenre = movies.filter((movie) => movie.Genre.toLowerCase().includes(genre.toLowerCase()));
+  // if(filteredMoviesByGenre.length === 0) throw Error(`No existen películas con el género: ${genre}`);
+  // const cleanMoviesInfo = cleanArray(filteredMoviesByGenre);
   return cleanMoviesInfo;
 };
 
 const getMovieByID = (id) => {
-  const movie = movies.find((movie) => movie.id === +id)
-  if(!movie) throw Error(`No se encontró la película de id: ${id}`);
-  return movie;
+  // const movie = movies.find((movie) => movie.id === +id)
+  // if(!movie) throw Error(`No se encontró la película de id: ${id}`);
+  // return movie;
 };
 
 const postMovie = async (title,year,rated,released,duration,genre,director,plot,language,poster,metascore) => {
@@ -67,6 +105,7 @@ const postMovie = async (title,year,rated,released,duration,genre,director,plot,
   // Relación
 
   const genresInBDD = await Genre.findAll({where:{name:resolvedGenres.map((genre)=>genre.name)}});
+  console.log(genresInBDD)
 
   await newMovie.addGenres(genresInBDD);
 
