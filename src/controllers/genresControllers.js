@@ -15,7 +15,11 @@ const getGenres = () => {
 
   return Promise.all(promises)
   .then(()=>{
-    const genres = Genre.findAll();
+    const genres = Genre.findAll({
+      order:[
+        ["name","ASC"]
+      ]
+    });
     if(genres.length === 0) throw Error(`No se pudo llenar la base de datos con los géneros`);
     return genres;
   })
@@ -23,8 +27,6 @@ const getGenres = () => {
     throw Error(error.message)
   })
 };
-
-
 
 module.exports = {
   getGenres
