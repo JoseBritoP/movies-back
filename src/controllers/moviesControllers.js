@@ -1,9 +1,17 @@
 const movies = require('../data/movies.json');
+const { Movie, Genre } = require('../db');
 const cleanArray = require('../helpers/cleanArrayMovies')
-const getMovies = () => {
-  const cleanMoviesInfo = cleanArray(movies);
-  // return movies;
-  return cleanMoviesInfo
+const getMovies = async () => {
+
+  const movies = Movie.findAll({
+    include:{
+      model:Genre
+    }
+  });
+  
+  // const cleanMoviesInfo = cleanArray(movies);
+  return movies;
+  // return cleanMoviesInfo
 };
 
 const getMoviesByName = (Title) => {
@@ -30,8 +38,55 @@ const getMovieByID = (id) => {
   return movie;
 };
 
-const postMovie = (Title,Year,Released,Runtime,Genre,Director,Plot,Language,Country,MetaScore,Images) => {
+const postMovie = async (title,year,rated,released,duration,genre,director,plot,language,poster,metascore) => {
 
+  //Validación que los géneros existan: 
+  const genresFormat = genre.map(async (genreName) => {
+    const genreInBDD = await Genre.findOne({ where: { name: genreName } });
+    if(!genreInBDD) throw new Error(`El género "${genreName}" no existe en la base de datos.`);
+    return { id: genreInBDD.id, name: genreInBDD.name };
+  });
+    
+  const resolvedGenres = await Promise.all(genresFormat);
+
+  const movieFormat = {
+    title,
+    year,
+    rated,
+    released,
+    duration,
+    director,
+    plot,
+    language,
+    poster,
+    metascore
+  };
+
+  const newMovie = await Movie.create(movieFormat);
+
+  // Relación
+
+  const genresInBDD = await Genre.findAll({where:{name:resolvedGenres.map((genre)=>genre.name)}});
+
+  await newMovie.addGenres(genresInBDD);
+
+  if(!newMovie) throw Error(`No se pudo crear la película: ${title}`);
+
+  return {
+    id: newMovie.id,
+    title: newMovie.title,
+    year: newMovie.year,
+    rated: newMovie.rated,
+    released: newMovie.released,
+    duration: newMovie.duration,
+    director: newMovie.director,
+    plot: newMovie.plot,
+    language: newMovie.language,
+    poster: newMovie.poster,
+    genre:genresInBDD,
+    metascore: newMovie.metascore,
+  }
+  
 };
 
 const patchMovie = () => {};
