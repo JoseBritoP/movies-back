@@ -1,7 +1,7 @@
 const { Movie, Genre } = require('../../db');
 
 const postMovie = async (title,year,rated,released,duration,genre,director,plot,language,poster,metascore) => {
-  console.log(genre)
+  // console.log(genre)
   //Validación que los géneros existan: 
   const genresFormat = genre.map(async (genreName) => {
     const genreInBDD = await Genre.findOne({ where: { name: genreName } });
@@ -29,7 +29,7 @@ const postMovie = async (title,year,rated,released,duration,genre,director,plot,
   // Relación
 
   const genresInBDD = await Genre.findAll({where:{name:resolvedGenres.map((genre)=>genre.name)}});
-  console.log(genresInBDD)
+  // console.log(genresInBDD)
 
   await newMovie.addGenres(genresInBDD);
 
