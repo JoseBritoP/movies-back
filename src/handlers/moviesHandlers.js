@@ -7,9 +7,9 @@ const {
 // Handlers:
 
 const getAllMovies = async (req,res) => {
-  const { Title } = req.query;
+  const { title } = req.query;
   try {
-    const movies = Title ? await getMoviesByName(Title) : await getMovies();
+    const movies = title ? await getMoviesByName(title) : await getMovies();
     return res.status(200).json(movies)
   } catch (error) {
     return res.status(404).json({error: error.message});    
