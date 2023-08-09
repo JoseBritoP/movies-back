@@ -3,7 +3,7 @@
 const {
   getMovies, getMoviesByName, getMoviesByGenres,getMovieByID,getTop5Movies,postMovie,patchMovie,putMovie,deleteMovieById
 } = require('../controllers/movies/index');
-const { validateMovie } = require('../schema/Movie');
+const { validateMovie,validateParcialMovie } = require('../schema/Movie');
 
 // Handlers:
 
@@ -64,9 +64,22 @@ const createMovie = async (req,res) => {
   // return res.status(201).json({message:`Aqui se creará una pelicula`});
 };
 
-const editMovie = (req,res) => {
+const editMovie = async (req,res) => {
   const { id } = req.params;
-  return res.status(200).json({message:`Se editará parcialmente la información de la película: ${id}`});
+  const result = await validateParcialMovie(req.body);
+  if(result.error){
+    return res.status(400).json({error: JSON.parse(result.error.message)})
+  }
+  const { data } = result;
+  const {title,year,rated,released,duration,genre,director,plot,language,poster,metascore} = req.body;
+
+  // console.log(data)
+  try {
+    const editedMovie = await patchMovie(id,title,year,rated,released,duration,genre,director,plot,language,poster,metascore);
+    return res.status(200).json(editedMovie)
+  } catch (error) {
+    return res.status(400).json({error: error.message})
+  }
 };
 
 const updateMovie = (req,res) => {
