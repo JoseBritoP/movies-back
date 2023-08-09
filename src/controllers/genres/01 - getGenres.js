@@ -1,6 +1,6 @@
-const { Genre } = require('../db');
+const { Genre } = require('../../db');
 
-const genresJson = require('../data/genres.json');
+const genresJson = require('../../data/genres.json');
 
 const getGenres = () => {
   const genres = genresJson.map((genre)=>{
@@ -28,6 +28,4 @@ const getGenres = () => {
   })
 };
 
-module.exports = {
-  getGenres
-}
+module.exports = getGenres;

@@ -1,6 +1,6 @@
 // Controllers
 
-const {getGenres} = require('../controllers/genresControllers');
+const {getGenres} = require('../controllers/genres/index');
 
 // Handlers:
 

@@ -2,7 +2,7 @@
 
 const {
   getMovies, getMoviesByName, getMoviesByGenres,getMovieByID,postMovie,patchMovie,putMovie,deleteMovieById
-} = require('../controllers/moviesControllers');
+} = require('../controllers/movies/index');
 
 // Handlers:
 
