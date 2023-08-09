@@ -1,7 +1,7 @@
 // Controllers:
 
 const {
-  getMovies, getMoviesByName, getMoviesByGenres,getMovieByID,getTop5Movies,postMovie,patchMovie,putMovie,deleteMovieById,restoreMovieById
+  getMovies, getMoviesByName, getMoviesByGenres,getMovieByID,getTop5Movies,postMovie,patchMovie,putMovie,deleteMovieById,restoreMovieById,getDeletedMovies
 } = require('../controllers/movies/index');
 const { validateMovie,validateParcialMovie } = require('../schema/Movie');
 
@@ -119,6 +119,15 @@ const restoreMovie = async (req,res) => {
   }
 };
 
+const getAllDeletedMovies = async (req,res) => {
+  try {
+    const deletedMovies = await getDeletedMovies();
+    return res.status(200).json({deletedMovies:deletedMovies})
+  } catch (error) {
+    return res.status(404).json({error: error.message});
+  }
+};
+
 module.exports = {
-  getAllMovies,getMovieById,getMoviesByGenre,getTopMovies,createMovie,editMovie,updateMovie,deleteMovie,restoreMovie
+  getAllMovies,getMovieById,getMoviesByGenre,getTopMovies,createMovie,editMovie,updateMovie,deleteMovie,restoreMovie,getAllDeletedMovies
 }
