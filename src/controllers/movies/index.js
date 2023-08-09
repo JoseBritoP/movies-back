@@ -7,7 +7,8 @@ const patchMovie = require('./06 - patchMovie');
 const putMovie = require('./07 - putMovie');
 const deleteMovieById = require('./08 - deleteMovieById');
 const getTop5Movies = require('./09 - getTop5Movies');
+const restoreMovieById = require('./10 - restoreMovieById');
 
 module.exports = {
-  getMovies, getMoviesByName, getMoviesByGenres,getMovieByID,getTop5Movies,postMovie,patchMovie,putMovie,deleteMovieById
+  getMovies, getMoviesByName, getMoviesByGenres,getMovieByID,getTop5Movies,postMovie,patchMovie,putMovie,deleteMovieById,restoreMovieById
 }

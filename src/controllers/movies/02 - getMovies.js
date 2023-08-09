@@ -54,7 +54,8 @@ const getMovies = async () => {
       },
       where:{
         view:true
-      }
+      },
+      order:[["id","ASC"]]
     },
   );
 

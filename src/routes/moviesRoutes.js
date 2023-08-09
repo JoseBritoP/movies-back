@@ -3,7 +3,7 @@ const { Router } = require('express');
 // Handlers
 
 const {
-  getAllMovies,getMovieById,getMoviesByGenre,getTopMovies,createMovie,editMovie,updateMovie,deleteMovie
+  getAllMovies,getMovieById,getMoviesByGenre,getTopMovies,createMovie,editMovie,updateMovie,deleteMovie,restoreMovie
 } = require('../handlers/moviesHandlers');
 
 // Router
@@ -20,5 +20,6 @@ moviesRouter.post('/',createMovie);
 moviesRouter.put('/update/:id',updateMovie);
 moviesRouter.patch('/edit/:id',editMovie);
 moviesRouter.put('/delete/:id',deleteMovie);
+moviesRouter.put('/restore/:id',restoreMovie);
 
 module.exports = moviesRouter;
