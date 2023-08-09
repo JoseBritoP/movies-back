@@ -12,11 +12,16 @@ const getMoviesByName = async  (title) => {
       attributes:["id","name"],
       through: { attributes: [] }
     },
-    where:{
-      title:{
-        [Op.iLike]: formattedQuery,
+    where:[
+      {
+        title:{
+          [Op.iLike]: formattedQuery,
+        },
       },
-    },
+      {
+        view: true
+      },
+    ],
     order:[
       ["title","ASC"]
     ]

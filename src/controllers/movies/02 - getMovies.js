@@ -46,7 +46,10 @@ const getMovies = async () => {
   const moviesBDD = await Movie.findAll({include:{
     model:Genre,
     attributes:["id","name"],
-    through: { attributes: [] }
+    through: { attributes: [] },
+    where:{
+      view:true,
+    }
   }});
 
   return moviesBDD

@@ -9,6 +9,9 @@ const getMovieByID = async (id) => {
       attributes:["id","name"],
       through: { attributes: [] },
     },
+    where:{
+      view:true,
+    }
   });
 
   if(!movie) throw Error(`No existe la película de id: ${id}`)

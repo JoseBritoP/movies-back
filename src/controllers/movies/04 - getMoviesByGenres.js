@@ -19,7 +19,10 @@ const getMoviesByGenres = async (genre) => {
     },
     order:[
       ["title","ASC"]
-    ]
+    ],
+    where:{
+      view:true
+    }
   });
 
   return moviesByGenre;

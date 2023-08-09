@@ -3,6 +3,7 @@
 const {
   getMovies, getMoviesByName, getMoviesByGenres,getMovieByID,postMovie,patchMovie,putMovie,deleteMovieById
 } = require('../controllers/movies/index');
+const { validateMovie } = require('../schema/Movie');
 
 // Handlers:
 
@@ -40,14 +41,18 @@ const getMoviesByGenre = async (req,res) => {
 };
 
 const createMovie = async (req,res) => {
-  const {title,year,rated,released,duration,genre,director,plot,language,poster,metaScore} = req.body;
+  const result = await validateMovie(req.body)
+  if(result.error){
+    return res.status(422).json({error: JSON.parse(result.error.message)})
+  }
+  const {title,year,rated,released,duration,genre,director,plot,language,poster,metascore} = req.body;
   try {
-    const newMovie = await postMovie(title,year,rated,released,duration,genre,director,plot,language,poster,metaScore)
+    const newMovie = await postMovie(title,year,rated,released,duration,genre,director,plot,language,poster,metascore)
     return res.status(201).json(newMovie);
   } catch (error) {
-    return res.status(404).json({error: error.message});
+    return res.status(400).json({error: error.message});
   }
-  return res.status(201).json({message:`Aqui se creará una pelicula`});
+  // return res.status(201).json({message:`Aqui se creará una pelicula`});
 };
 
 const editMovie = (req,res) => {
