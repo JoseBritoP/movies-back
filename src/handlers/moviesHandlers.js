@@ -1,7 +1,7 @@
 // Controllers:
 
 const {
-  getMovies, getMoviesByName, getMoviesByGenres,getMovieByID,postMovie,patchMovie,putMovie,deleteMovieById
+  getMovies, getMoviesByName, getMoviesByGenres,getMovieByID,getTop5Movies,postMovie,patchMovie,putMovie,deleteMovieById
 } = require('../controllers/movies/index');
 const { validateMovie } = require('../schema/Movie');
 
@@ -38,6 +38,15 @@ const getMoviesByGenre = async (req,res) => {
     return res.status(404).json({error: error.message});
   }
   // return res.status(200).json({message:`Aquí se mostrarán las películas de género ${genre}`})
+};
+
+const getTopMovies = async (req,res) => {
+  try {
+    const topMovies = await getTop5Movies();
+    return res.status(200).json(topMovies);
+  } catch (error) {
+    return res.status(404).json({error: error.message});
+  }
 };
 
 const createMovie = async (req,res) => {
@@ -77,5 +86,5 @@ const deleteMovie = async (req,res) => {
 };
 
 module.exports = {
-  getAllMovies,getMovieById,getMoviesByGenre,createMovie,editMovie,updateMovie,deleteMovie
+  getAllMovies,getMovieById,getMoviesByGenre,getTopMovies,createMovie,editMovie,updateMovie,deleteMovie
 }
