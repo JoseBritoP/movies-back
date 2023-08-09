@@ -2,9 +2,11 @@ const { Router } = require('express');
 
 // Handlers
 
-const {
-  getAllMovies,getMovieById,getMoviesByGenre,getTopMovies,createMovie,editMovie,updateMovie,deleteMovie,restoreMovie,getAllDeletedMovies
-} = require('../handlers/moviesHandlers');
+// const {
+//   getAllMovies,getMovieById,getMoviesByGenre,getTopMovies,createMovie,editMovie,updateMovie,deleteMovie,restoreMovie,getAllDeletedMovies
+// } = require('../handlers/moviesHandlers');
+const  {
+    getAllMovies,getMovieById,getMoviesByGenre,getTopMovies,createMovie,editMovie,updateMovie,deleteMovie,restoreMovie,getAllDeletedMovies } = require('../handlers/movies/index');
 
 // Router
 
@@ -18,8 +20,8 @@ moviesRouter.get('/genre/:genre',getMoviesByGenre);
 moviesRouter.get('/delete',getAllDeletedMovies)
 moviesRouter.get('/:id',getMovieById);
 moviesRouter.post('/',createMovie);
-moviesRouter.put('/update/:id',updateMovie);
 moviesRouter.patch('/edit/:id',editMovie);
+moviesRouter.put('/update/:id',updateMovie);
 moviesRouter.put('/delete/:id',deleteMovie);
 moviesRouter.put('/restore/:id',restoreMovie);
 
