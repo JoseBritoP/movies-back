@@ -1,11 +1,28 @@
+const { Op } = require('sequelize');
 const { Movie, Genre} = require('../../db');
 
-const getMoviesByGenres = (genre) => {
-  // // console.log(genre)
-  // const filteredMoviesByGenre = movies.filter((movie) => movie.Genre.toLowerCase().includes(genre.toLowerCase()));
-  // if(filteredMoviesByGenre.length === 0) throw Error(`No existen películas con el género: ${genre}`);
-  // const cleanMoviesInfo = cleanArray(filteredMoviesByGenre);
-  // return cleanMoviesInfo;
+const getMoviesByGenres = async (genre) => {
+  const params = genre.toLowerCase().trim();
+
+  const formattedQuery = `%${params}%`
+
+  const moviesByGenre = await Movie.findAll({
+    include:{
+      model:Genre,
+      attributes: ["id","name"],
+      where:{
+        name:{
+          [Op.iLike]: formattedQuery
+        },
+      },
+      through: { attributes: [] },
+    },
+    order:[
+      ["title","ASC"]
+    ]
+  });
+
+  return moviesByGenre;
 };
 
 module.exports = getMoviesByGenres;
