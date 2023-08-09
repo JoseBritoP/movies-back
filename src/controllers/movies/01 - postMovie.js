@@ -1,7 +1,7 @@
 const { Movie, Genre } = require('../../db');
 
 const postMovie = async (title,year,rated,released,duration,genre,director,plot,language,poster,metascore) => {
-
+  console.log(genre)
   //Validación que los géneros existan: 
   const genresFormat = genre.map(async (genreName) => {
     const genreInBDD = await Genre.findOne({ where: { name: genreName } });
@@ -10,7 +10,7 @@ const postMovie = async (title,year,rated,released,duration,genre,director,plot,
   });
     
   const resolvedGenres = await Promise.all(genresFormat);
-
+  // Creación de la película:
   const movieFormat = {
     title,
     year,
