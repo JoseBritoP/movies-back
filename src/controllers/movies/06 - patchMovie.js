@@ -1,6 +1,6 @@
 const { Movie, Genre } = require('../../db');
 
-const patchMovie = async (id,title,year,rated,released,duration,genre,director,plot,language,poster,metascore) => {
+const patchMovie = async (id,title,year,rated,released,duration,director,plot,language,poster,metascore) => {
   // console.log(data)
 
   const editedMovie = await Movie.findByPk(id,{
@@ -16,7 +16,6 @@ const patchMovie = async (id,title,year,rated,released,duration,genre,director,p
   editedMovie.rated = rated || editedMovie.rated;
   editedMovie.released = released || editedMovie.released;
   editedMovie.duration = duration || editedMovie.duration;
-  editedMovie.genre = genre || editedMovie.genre;
   editedMovie.director = director || editedMovie.director;
   editedMovie.plot = plot || editedMovie.plot;
   editedMovie.language = language || editedMovie.language;

@@ -17,8 +17,8 @@ moviesRouter.get('/top',getTopMovies);
 moviesRouter.get('/:id',getMovieById);
 moviesRouter.get('/genre/:genre',getMoviesByGenre);
 moviesRouter.post('/',createMovie);
-moviesRouter.patch('/edit/:id',editMovie);
 moviesRouter.put('/update/:id',updateMovie);
+moviesRouter.patch('/edit/:id',editMovie);
 moviesRouter.put('/delete/:id',deleteMovie);
 
 module.exports = moviesRouter;
