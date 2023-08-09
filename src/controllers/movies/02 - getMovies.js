@@ -42,15 +42,20 @@ const getMovies = async () => {
     await newMovie.addGenres(genresInBDD);
   }
 
+  const moviesBDD = await Movie.findAll(
+    {
+      include:{
+      model:Genre,
+      attributes:["id","name"],
+      through: { attributes: [] },
+      },
+      where:{
+        view:true
+      }
+    },
+  );
 
-  const moviesBDD = await Movie.findAll({include:{
-    model:Genre,
-    attributes:["id","name"],
-    through: { attributes: [] },
-    where:{
-      view:true,
-    }
-  }});
+  if(moviesBDD.length === 0) throw Error('No hay películas a mostrar')
 
   return moviesBDD
 };
