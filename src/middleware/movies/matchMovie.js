@@ -18,8 +18,9 @@ const matchMovie = async (req,res,next) => {
     const genres = genre.map(async(gen)=>{
       const genreInBDD = await Genre.findOne({where:{name: gen}})
       if(!genreInBDD) throw Error(`No existe el género ${gen} en la base de datos`)
-    })
-    return await Promise.all(genres);
+    });
+    await Promise.all(genres);
+    next();
   } catch (error) {
     return res.status(400).json({error: error.message});
   }
