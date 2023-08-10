@@ -1,6 +1,6 @@
 const { Movie, Genre } = require('../../db');
 
-const postMovie = async (title, year, rated, released, duration, genre, director, plot, language, poster, metascore) => {
+const postMovie = async (title, year, rated, released, duration, genre, director, plot, language, poster) => {
   
   const movieFormat = {
     title,
@@ -12,7 +12,6 @@ const postMovie = async (title, year, rated, released, duration, genre, director
     plot,
     language,
     poster,
-    metascore
   };
 
   const newMovie = await Movie.create(movieFormat);
