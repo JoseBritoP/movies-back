@@ -7,7 +7,6 @@ const createMovie = async (req,res) => {
     const newMovie = await postMovie(title,year,rated,released,duration,genre,director,plot,language,poster)
     return res.status(201).json(newMovie);
   } catch (error) {
-    console.log(error.message)
     return res.status(422).json({error: error.message});
   }
 };
