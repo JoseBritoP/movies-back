@@ -16,7 +16,27 @@ describe('GET /movies',()=>{
   });
 });
 
-xdescribe('POST /movies',()=>{
+describe('GET /movies/top',()=>{
+  describe('Success case',()=>{
+    test('should respond with a 200 status code',async()=>{
+      const response = await request(server).get('/movies/top').send();
+      expect(response.status).toBe(200)
+      expect(response.ok).toBe(true)
+    });
+    test('should response with an array',async ()=>{
+      const response = await request(server).get('/movies/top').send();
+      expect(response.body).toBeInstanceOf(Array);
+      expect(response.body).toHaveLength(5);
+    });
+    test('should response with an 5 array length',async ()=>{
+      const response = await request(server).get('/movies/top').send();
+      expect(response.body).toBeInstanceOf(Array);
+      expect(response.body).toHaveLength(5);
+    });
+  });
+});
+
+describe('POST /movies',()=>{
   describe('Success case',()=>{
     test('should respond with a 201 status code',async()=>{
       const response = await request(server).post('/movies').send({
