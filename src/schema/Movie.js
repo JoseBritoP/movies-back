@@ -20,10 +20,10 @@ const movieSchema = z.object({
     message: 'Movie duration must be a number',
     required_error: 'Movie duration is required'
   }).int().positive().min(0).max(400),
-  genre:z.array(z.enum(['Action','Adventure','Biography','Crime','Drama','Fantasy','History','Horror','Sci-Fi','Thriller']),{
-    required_error: 'Movie genre is required',
-    invalid_type_error: 'Movie genre must be an array of enum Genre',
-  }),
+  // genre:z.array(z.enum(['Action','Adventure','Biography','Crime','Drama','Fantasy','History','Horror','Sci-Fi','Thriller']),{
+  //   required_error: 'Movie genre is required',
+  //   invalid_type_error: 'Movie genre must be an array of enum Genre',
+  // }),
   director: z.string({
     message: 'Movie director must be a string',
     required_error: 'Movie director is required'

@@ -12,7 +12,7 @@ const moviesRouter = Router();
 // Middleware
 
 const postValidate = require('../middleware/movies/Movie');
-const matchTitle = require('../middleware/movies/MovieTitle')
+const matchTitle = require('../middleware/movies/matchMovie')
 
 // Enrutado
 
