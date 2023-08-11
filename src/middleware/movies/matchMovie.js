@@ -13,11 +13,11 @@ const matchMovie = async (req,res,next) => {
       }
     });
 
-    if(existTitle) throw Error(`Ya existe una película llamada: ${title}`)
+    if(existTitle) throw Error(`There is already a movie titled: ${title}`)
 
     const genres = genre.map(async(gen)=>{
       const genreInBDD = await Genre.findOne({where:{name: gen}})
-      if(!genreInBDD) throw Error(`No existe el género ${gen} en la base de datos`)
+      if(!genreInBDD) throw Error(`The genre ${gen} does not exist in the database`)
     });
     await Promise.all(genres);
     next();
