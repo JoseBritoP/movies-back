@@ -18,7 +18,7 @@ const matchTitle = require('../middleware/movies/matchMovie')
 
 moviesRouter.get('/',getAllMovies); //x
 moviesRouter.get('/top',getTopMovies); //x
-moviesRouter.get('/genre/:genre',getMoviesByGenre); //
+moviesRouter.get('/genre/:genre',getMoviesByGenre); //x
 moviesRouter.get('/delete',getAllDeletedMovies)
 moviesRouter.get('/:id',getMovieById); //x
 moviesRouter.post('/',postValidate,matchTitle,createMovie); //x
