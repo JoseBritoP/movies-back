@@ -16,13 +16,13 @@ const matchTitle = require('../middleware/movies/matchMovie')
 
 // Enrutado
 
-moviesRouter.get('/',getAllMovies);
-moviesRouter.get('/top',getTopMovies);
-moviesRouter.get('/genre/:genre',getMoviesByGenre);
+moviesRouter.get('/',getAllMovies); //x
+moviesRouter.get('/top',getTopMovies); //x
+moviesRouter.get('/genre/:genre',getMoviesByGenre); //
 moviesRouter.get('/delete',getAllDeletedMovies)
-moviesRouter.get('/:id',getMovieById);
-moviesRouter.post('/',postValidate,matchTitle,createMovie);
-moviesRouter.patch('/edit/:id',editMovie);
+moviesRouter.get('/:id',getMovieById); //x
+moviesRouter.post('/',postValidate,matchTitle,createMovie); //x
+moviesRouter.patch('/edit/:id',editMovie); //x
 moviesRouter.put('/update/:id',updateMovie);
 moviesRouter.put('/delete/:id',deleteMovie);
 moviesRouter.put('/restore/:id',restoreMovie);

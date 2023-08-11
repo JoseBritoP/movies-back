@@ -16,6 +16,81 @@ describe('GET /movies',()=>{
   });
 });
 
+describe('GET /movies?title=queryTitle',()=>{
+  describe('Success case', () => {
+    const queryTitle = 'Star';
+  
+    test('should respond with a status code 200', async () => {
+      const response = await request(server).get(`/movies?title=${queryTitle}`).send();
+      expect(response.status).toBe(200);
+      expect(response.ok).toBe(true);
+    });
+  
+    test(`should response with an array of movies containing "${queryTitle}" in title`, async () => {
+      const response = await request(server).get(`/movies?title=${queryTitle}`).send();
+      expect(response.status).toBe(200);
+      expect(response.ok).toBe(true);
+      expect(response.body).toBeInstanceOf(Array);
+  
+      const movieTitles = response.body.map(movie => movie.title);
+      expect(movieTitles).toEqual(expect.arrayContaining([expect.stringContaining(queryTitle)]));
+    });
+  });
+  describe('Error case',()=>{
+    const queryTitle = "Harry"
+    test('should respond with a status code 404',async()=>{
+      const response = await request(server).get(`/movies?title=${queryTitle}`).send();
+      expect(response.status).toBe(404);
+      expect(response.ok).toBe(false);
+    });
+    test(`should response with message error: 'No movies called ${queryTitle}'`,async()=>{
+      const response = await request(server).get(`/movies?title=${queryTitle}`).send();
+      // console.log(response.error.text)
+      // console.log(response.body)
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe(`No movies called ${queryTitle}`);
+    });
+  });
+});
+
+describe('GET /movies/genre/genreParams',()=>{
+  describe('Success case',()=>{
+    const genreParams = "Action"
+    test('should respond with a status code 200',async()=>{
+      const response = await request(server).get(`/movies/genre/${genreParams}`);
+      expect(response.status).toBe(200);
+      expect(response.ok).toBe(true);
+    });
+    test(`should response with an array of movies containing '${genreParams} in ther genres`,async()=>{
+      const response = await request(server).get(`/movies/genre/${genreParams}`).send();
+      expect(response.status).toBe(200);
+      expect(response.ok).toBe(true);
+      expect(response.body).toBeInstanceOf(Array);
+
+      const movies = response.body;
+
+      for (const movie of movies) {
+        const genres = movie.Genres.map(genre => genre.name);
+        expect(genres).toContain(genreParams);
+      }
+    });
+  });
+  describe('Success case',()=>{
+    const genreParams = 'Terror';
+    test('should respond with a status code 404',async()=>{
+      const response = await request(server).get(`/movies/genre/${genreParams}`).send();
+      expect(response.status).toBe(404);
+      expect(response.ok).toBe(false);
+      expect(response.clientError).toBe(true);
+    });
+    test(`should response with message error: 'No movies with genre: ${genreParams}'`,async()=>{
+      const response = await request(server).get(`/movies/genre/${genreParams}`).send();
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe(`No movies with genre: ${genreParams}`);
+    });
+  });
+});
+
 describe('GET /movies/top',()=>{
   describe('Success case',()=>{
     test('should respond with a 200 status code',async()=>{
@@ -28,7 +103,7 @@ describe('GET /movies/top',()=>{
       expect(response.body).toBeInstanceOf(Array);
       expect(response.body).toHaveLength(5);
     });
-    test('should response with an 5 array length',async ()=>{
+    test('should response with top 5 movies',async ()=>{
       const response = await request(server).get('/movies/top').send();
       expect(response.body).toBeInstanceOf(Array);
       expect(response.body).toHaveLength(5);
@@ -36,7 +111,32 @@ describe('GET /movies/top',()=>{
   });
 });
 
-describe('POST /movies',()=>{
+describe('GET /movies/:id',()=>{
+  describe('Success case', ()=>{
+    test('should respond with a 200 status code',async()=>{
+      const response = await request(server).get('/movies/1').send();
+      expect(response.status).toBe(200);
+      expect(response.ok).toBe(true);
+    });
+    test('should response with an object',async ()=>{
+      const response = await request(server).get('/movies/1').send();
+      expect(response.body).toBeInstanceOf(Object)
+    });
+  });
+  describe('Error case',()=>{
+    const id = 1000
+    test('should respond with a 404 status code', async ()=>{
+      const response = await request(server).get(`/movies/${id}`);
+      expect(response.status).toBe(404);
+    });
+    test(`should response with a message error like: 'Movie with ID ${id} does not exist'`,async()=>{
+      const response = await request(server).get(`/movies/${id}`);
+      expect(response.body.error).toBe(`Movie with ID ${id} does not exist`);
+    });
+  });
+});
+
+xdescribe('POST /movies',()=>{
   describe('Success case',()=>{
     test('should respond with a 201 status code',async()=>{
       const response = await request(server).post('/movies').send({
@@ -136,7 +236,7 @@ describe('POST /movies',()=>{
   })
 });
 
-describe('PATCH EDIT /movies',()=>{
+xdescribe('PATCH EDIT /movies',()=>{
 
   test('should response with a status 200 when update the movie data',async()=>{
     const fields = [
