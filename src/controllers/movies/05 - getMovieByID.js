@@ -15,7 +15,7 @@ const getMovieByID = async (id) => {
     },
   });
 
-  if (!movie) throw Error(`No existe la película de id: ${id}`);
+  if (!movie) throw Error(`Movie with ID ${id} does not exist`);
 
   return movie;
 };

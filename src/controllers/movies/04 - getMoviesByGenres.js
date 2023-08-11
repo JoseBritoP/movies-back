@@ -2,6 +2,8 @@ const { Op } = require('sequelize');
 const { Movie, Genre} = require('../../db');
 
 const getMoviesByGenres = async (genre) => {
+  const formatGenre = genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase();;
+
   const params = genre.toLowerCase().trim();
 
   const formattedQuery = `%${params}%`
@@ -24,7 +26,7 @@ const getMoviesByGenres = async (genre) => {
       view:true
     }
   });
-
+  if(moviesByGenre.length === 0) throw Error(`No movies with genre: ${formatGenre}`)
   return moviesByGenre;
 };
 

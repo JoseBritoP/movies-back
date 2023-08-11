@@ -59,7 +59,7 @@ const getMovies = async () => {
     },
   );
 
-  if(moviesBDD.length === 0) throw Error('No hay películas a mostrar')
+  if(moviesBDD.length === 0) throw Error('No movies to show')
 
   return moviesBDD
 };
