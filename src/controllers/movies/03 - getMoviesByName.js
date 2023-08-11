@@ -2,6 +2,7 @@ const { Movie, Genre } = require('../../db');
 const { Op } = require('sequelize');
 
 const getMoviesByName = async  (title) => {
+  const formatTitle = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();;
   const query = title.toLowerCase().trim();
 
   const formattedQuery = `%${title}%`
@@ -27,7 +28,7 @@ const getMoviesByName = async  (title) => {
     ]
   });
 
-  if(moviesByName.length === 0) throw Error(`No hay películas llamadas ${query}`)
+  if(moviesByName.length === 0) throw Error(`No movies called ${formatTitle}`)
   return moviesByName;
 };
 
