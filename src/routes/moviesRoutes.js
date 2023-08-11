@@ -13,10 +13,11 @@ const moviesRouter = Router();
 
 const postValidate = require('../middleware/movies/Movie');
 const matchTitle = require('../middleware/movies/matchMovie')
+const {cacheInit} = require('../middleware/cache/cache')
 
 // Enrutado
 
-moviesRouter.get('/',getAllMovies); //x
+moviesRouter.get('/',cacheInit,getAllMovies); //x
 moviesRouter.get('/top',getTopMovies); //x
 moviesRouter.get('/genre/:genre',getMoviesByGenre); //x
 moviesRouter.get('/delete',getAllDeletedMovies)
