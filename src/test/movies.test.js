@@ -75,7 +75,7 @@ describe('GET /movies/genre/genreParams',()=>{
       }
     });
   });
-  describe('Success case',()=>{
+  describe('Error case',()=>{
     const genreParams = 'Terror';
     test('should respond with a status code 404',async()=>{
       const response = await request(server).get(`/movies/genre/${genreParams}`).send();
@@ -136,7 +136,7 @@ describe('GET /movies/:id',()=>{
   });
 });
 
-xdescribe('POST /movies',()=>{
+describe('POST /movies',()=>{
   describe('Success case',()=>{
     test('should respond with a 201 status code',async()=>{
       const response = await request(server).post('/movies').send({
@@ -192,26 +192,6 @@ xdescribe('POST /movies',()=>{
   });
   describe('Error case',()=>{
 
-    const testMovie = {
-      "title": "first test",
-      "year": 2009,
-      "rated": "TV-MA",
-      "released": "17 Dec 2009",
-      "duration": 120,
-      "genre": ["Action", "Adventure","Drama","Fantasy"],
-      "director": "James tester",
-      "plot": "The adventure of test",
-      "language": "English",
-      "poster": "http://test.page.com/testimage/testingimage.jpng",
-      "metascore": 0
-    }
-
-    test('should respond with a status 400',async()=>{
-      const response = await request(server).post('/movies').send({});
-      // console.log(response)
-      expect(response.status).toBe(400);
-      expect(response.badRequest).toBe(true);
-    });
     test('should respond with a status 400 if is missing data',async()=>{
       const fields = [
         {},
@@ -233,10 +213,287 @@ xdescribe('POST /movies',()=>{
         expect(response.status).toBe(400);
       }
     });
-  })
+
+    test('should respond with a status 400 if the prop type is invalid',async()=>{
+      const moviesTest= [
+        {
+          "title": 1,
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },
+        {
+          "title": "Test error",
+          "year": "2009",
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": 1,
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": 12,
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": "pepe",
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["asdas"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": 12,
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": [],
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": {},
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": 1,
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": ""
+        },
+      ];
+      const movieTesting = moviesTest.map(async (movie)=>{
+        const response = await request(server).post('/movies').send(movie);
+        // console.log(response)
+        expect(response.status).toBe(400)
+      })
+      await Promise.all(movieTesting)
+    });
+    test('should respond with a message error for invalidad prop type', async()=>{
+      const moviesTest= [
+        {
+          "title": 1,
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },
+        {
+          "title": "Test error",
+          "year": "2009",
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": 1,
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": 12,
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": "pepe",
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": 12,
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": [],
+          "language": "English",
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": "Test error",
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": {},
+          "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+        },{
+          "title": 1,
+          "year": 2009,
+          "rated": "TV-MA",
+          "released": "Unknown",
+          "duration": 120,
+          "genre": ["Action", "Adventure" , "Fantasy"],
+          "director": "Unknown",
+          "plot": "Follow the cat",
+          "language": "English",
+          "poster": ""
+        },
+      ];
+      const movieTesting = moviesTest.map(async (movie)=>{
+        const response = await request(server).post('/movies').send(movie);
+        // console.log(response.body.error)
+        expect(response.status).toBe(400);
+        expect(response.body.error).toMatchObject({
+          issues: expect.any(Array),
+          name: 'ZodError'
+        });
+      });
+      await Promise.all(movieTesting)
+    });
+    test('should respond with a message error in case the title exist in the api',async()=>{
+      const movieTest = {
+        "title": "Avatar",
+        "year": 2009,
+        "rated": "TV-MA",
+        "released": "Unknown",
+        "duration": 120,
+        "genre": ["Action", "Adventure" , "Fantasy"],
+        "director": "Unknown",
+        "plot": "Follow the cat",
+        "language": "English",
+        "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+      };
+      const response = await request(server).post('/movies').send(movieTest);
+      expect(response.status).toBe(400);
+      expect(response.clientError).toBe(true);
+      // console.log(response.body.error)
+      expect(response.body.error).toBe(`There is already a movie titled: ${movieTest.title}`)
+
+    });
+    test('should respond with a message error in case the genre dont exist in the api',async()=>{
+      const movieTest =   {
+        "title": "Test testing Genre",
+       "year": 2009,
+       "rated": "TV-MA",
+       "released": "Unknown",
+       "duration": 120,
+       "genre": ["Randomly"],
+       "director": "Unknown",
+       "plot": "Follow the cat",
+       "language": "English",
+       "poster": "http://ia.media-imdb.com/images/M/MV5BOTA4NTkzMjUzOF5BMl5BanBnXkFtZTgwNzg5ODkxOTE@._V1_SX300.jpg"
+      }
+      const response = await request(server).post('/movies').send(movieTest);
+      expect(response.status).toBe(400);
+      expect(response.clientError).toBe(true);
+      // console.log(response.body.error)
+      expect(response.body.error).toBe(`The genre ${movieTest.genre} does not exist in the database`)
+    });
+  });
 });
 
-xdescribe('PATCH EDIT /movies',()=>{
+describe('PATCH EDIT /movies',()=>{
 
   test('should response with a status 200 when update the movie data',async()=>{
     const fields = [
