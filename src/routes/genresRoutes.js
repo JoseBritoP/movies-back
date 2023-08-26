@@ -13,3 +13,4 @@ const genresRouter = Router();
 genresRouter.get('/',getAllGenres);
 
 module.exports = genresRouter;
+// 
